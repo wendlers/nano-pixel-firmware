@@ -36,7 +36,7 @@ int main(void)
 	log_init();
 	timer_init();
 
-	NRF_LOG_INFO("*** BLE Nano v2 is alive - ws2812b BLE ***\n");
+	NRF_LOG_INFO("*** BLE Nano v2 is alive - N-A-N-O P-I-X-E-L 0.1 ***\n");
 
 	App app;
     app.init();

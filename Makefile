@@ -3,7 +3,7 @@ TARGETS          := nrf52832_blenano2
 OUTPUT_DIRECTORY := build
 
 SDK_ROOT := ${NRF5X_SDK_ROOT}
-PROJ_DIR := ${NRF5X_HOME}/source/ws2812/src
+PROJ_DIR := ${PWD}/src
 
 $(OUTPUT_DIRECTORY)/nrf52832_blenano2.out: \
   LINKER_SCRIPT  := $(PROJ_DIR)/nrf52.ld
