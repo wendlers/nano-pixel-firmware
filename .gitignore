@@ -32,3 +32,5 @@
 *.app
 
 build/
+pyocd_settings.json
+sermon_settings.json
