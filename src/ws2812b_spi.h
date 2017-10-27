@@ -34,7 +34,8 @@ class Ws2812bSpi
 {
 public:
 
-  Ws2812bSpi()
+  Ws2812bSpi() :
+    brightness(1.0)
   {
     spi.spi = spi_drv_inst[spi_instance];
 
@@ -59,19 +60,44 @@ public:
 
   void blank()
   {
-    set_blank(led_array, num_leds);
+      set_blank(led_array, num_leds);
   }
 
   void update()
   {
-    ws2812b_driver_xfer(led_array, spi_buffer, spi);
+    if(brightness < 1.0) {
+        rgb_led_t led_array_tmp[num_leds];
+
+		for(uint16_t i = 0; i < num_leds; i++)
+		{
+            led_array_tmp[i].red   = led_array[i].red   * brightness;
+            led_array_tmp[i].green = led_array[i].green * brightness;
+            led_array_tmp[i].blue  = led_array[i].blue  * brightness;
+		}
+        ws2812b_driver_xfer(led_array_tmp, spi_buffer, spi);
+    }
+    else {
+        ws2812b_driver_xfer(led_array, spi_buffer, spi);
+    }
+  }
+
+  void setBrightness(float value)
+  {
+    brightness = value;
+  }
+
+  float getBrightness()
+  {
+     return brightness;
   }
 
 private:
 
-  ws2812b_driver_spi_t spi;
-  spi_buffer_t spi_buffer;
-  rgb_led_t led_array[num_leds];
+    ws2812b_driver_spi_t spi;
+    spi_buffer_t spi_buffer;
+    rgb_led_t led_array[num_leds];
+
+    float brightness;
 };
 
 #endif

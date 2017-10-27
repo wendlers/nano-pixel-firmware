@@ -61,3 +61,12 @@ void App::onCtrlReceived(uint8_t cmd)
             NRF_LOG_WARNING("Unknown control command received: %d\n\r", cmd);
     }
 }
+
+void App::onBrightnessReceived(uint8_t brightness)
+{
+    NRF_LOG_INFO("onBrightnessReceived: %d\n\r", brightness);
+
+    float bfp = brightness / 100.0;
+
+    leds.setBrightness(bfp);
+}

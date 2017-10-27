@@ -27,6 +27,7 @@ public:
     void onSetLedReceived(uint16_t id, uint8_t r, uint8_t g, uint8_t b);
     void onSetLedReceived(uint16_t x, uint16_t y, uint8_t r, uint8_t g, uint8_t b);
     void onCtrlReceived(uint8_t cmd);
+    void onBrightnessReceived(uint8_t brightness);
 
 private:
 

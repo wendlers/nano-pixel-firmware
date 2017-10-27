@@ -13,7 +13,8 @@ Ws2812bService::Ws2812bService(Ws2812bServiceEventHandler &eventHandler) :
     PeripheralService(BASE_UUID, SERVICE_UUID),
     eventHandler(&eventHandler),
     setLedChar(SETLED_UUID, 2 + 2 + 1 + 1 + 1), /* X-pos, Y-pos, Red, Green, Blue */
-    ctrlChar(CTRL_UUID, 1)
+    ctrlChar(CTRL_UUID, 1),
+    brightnessChar(BRIGHTNESS_UUID, 1)
 {
 }
 
@@ -25,6 +26,9 @@ uint32_t Ws2812bService::charInit()
     VERIFY_SUCCESS(err_code);
 
     err_code = ctrlChar.attach(*this);
+    VERIFY_SUCCESS(err_code);
+
+    err_code = brightnessChar.attach(*this);
     VERIFY_SUCCESS(err_code);
 
     return NRF_SUCCESS;
@@ -80,6 +84,15 @@ void Ws2812bService::onWriteEvent(ble_gatts_evt_write_t *p_evt_write)
         }
         else {
             NRF_LOG_WARNING("Wrong message size (%d) for ctrl!\n\r", p_evt_write->len)
+        }
+    }
+    else if(p_evt_write->handle == brightnessChar.getHandles().value_handle)
+    {
+        if(p_evt_write->len == 1) {
+            eventHandler->onBrightnessReceived(p_evt_write->data[0] % 100);
+        }
+        else {
+            NRF_LOG_WARNING("Wrong message size (%d) for brightness!\n\r", p_evt_write->len)
         }
     }
 }
